@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museum De Gevangenpoort – Leven in 1907</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brown: #3a1e0e;
+    --burgundy: #5c1a2a;
+    --cream: #f5eed8;
+    --sand: #d4b896;
+    --gray: #8a7d6e;
+    --gold: #b8973a;
+    --light-cream: #faf6ec;
+    --dark-text: #2a1508;
+  }
+  html { overflow-x: hidden; scroll-behavior: smooth; }
+  body {
+    background: var(--light-cream);
+    color: var(--dark-text);
+    font-family: 'EB Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+    transition: transform 0.1s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--burgundy);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.25s ease, width 0.2s, height 0.2s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(245, 238, 216, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(184,151,58,0.3);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 700;
+    color: var(--brown);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    color: var(--brown);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    cursor: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a:hover { color: var(--burgundy); }
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: none; background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--brown);
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--cream);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2.5rem;
+    overflow-y: auto;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--brown);
+    text-decoration: none;
+    cursor: none;
+    letter-spacing: 0.05em;
+  }
+  .mobile-menu a:hover { color: var(--burgundy); }
+  .mobile-close {
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-size: 2rem; background: none; border: none;
+    color: var(--brown); cursor: none;
+  }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: clamp(6rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) 4rem;
+    overflow: hidden;
+    background: var(--brown);
+  }
+  #hero-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.6;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(58,30,14,0.55) 0%, rgba(92,26,42,0.7) 100%);
+  }
+  .hero-dither {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='%23b8973a' opacity='0.08'/%3E%3Crect width='1' height='1' x='2' y='2' fill='%23b8973a' opacity='0.06'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: min(900px, 95vw);
+  }
+  .hero-eyebrow {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 7rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+    word-break: break-word;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-year {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 20vw, 18rem);
+    font-weight: 900;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(184,151,58,0.3);
+    line-height: 0.85;
+    display: block;
+    margin-bottom: 0.5rem;
+    user-select: none;
+  }
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(245,238,216,0.8);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+  .hero-cta:hover::before { transform: translateX(0); }
+  .hero-cta:hover { color: var(--brown); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.5rem;
+    color: rgba(245,238,216,0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 2;
+    animation: scrollBounce 2s infinite;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(184,151,58,0.7), transparent);
+    display: block;
+  }
+  @keyframes scrollBounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ===== SECTION BASE ===== */
+  section { position: relative; overflow: hidden; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-family: 'EB Garamond', serif;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--brown);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { color: var(--burgundy); font-style: italic; }
+  .section-body {
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 1.8;
+    color: var(--gray);
+    max-width: 60ch;
+  }
+
+  /* ===== ABOUT ===== */
+  #about {
+    background: var(--light-cream);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 5rem);
+  }
+  .about-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-frame {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--brown);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-frame-canvas {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .about-ornament {
+    position: absolute;
+    top: -20px; left: -20px;
+    width: 80%; height: 80%;
+    border: 2px solid var(--gold);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .about-year-badge {
+    position: absolute;
+    bottom: -1.5rem; right: -1.5rem;
+    width: 100px; height: 100px;
+    background: var(--burgundy);
+    border: 2px solid var(--gold);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+  }
+  .about-year-badge .y { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+  .about-year-badge .l { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .about-text { }
+  .about-divider {
+    width: 60px; height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin: 1.5rem 0;
+  }
+  .about-facts {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .fact {
+    padding: 1.2rem;
+    border-left: 2px solid var(--gold);
+    background: rgba(184,151,58,0.05);
+  }
+  .fact-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--burgundy);
+    line-height: 1;
+  }
+  .fact-label {
+    font-size: 0.8rem; color: var(--gray);
+    letter-spacing: 0.1em; margin-top: 0.3rem;
+  }
+  @media (max-width: 768px) {
+    .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .about-facts { grid-template-columns: 1fr 1fr; }
+    .about-year-badge { right: 0; }
+  }
+
+  /* ===== EXPERIENCE ===== */
+  #experience {
+    background: var(--brown);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 5rem);
+    position: relative;
+  }
+  #experience::before {
+    content: '1907';
+    position: absolute;
+    right: -2vw; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(8rem, 20vw, 22rem);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(184,151,58,0.12);
+    line-height: 1;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .exp-inner {
+    max-width: 1200px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .exp-header { margin-bottom: 4rem; }
+  .exp-header .section-title { color: var(--cream); }
+  .exp-header .section-label { color: var(--gold); opacity: 0.8; }
+  .exp-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: rgba(184,151,58,0.15);
+  }
+  .exp-card {
+    background: var(--brown);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .exp-card:hover { background: rgba(92,26,42,0.5); }
+  .exp-card:hover::before { transform: scaleX(1); }
+  .exp-icon {
+    width: 48px; height: 48px;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+  .exp-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+  .exp-card-text {
+    font-size: 0.95rem;
+    color: rgba(212,184,150,0.75);
+    line-height: 1.7;
+  }
+
+  /* ===== TIMELINE ===== */
+  #timeline {
+    background: var(--cream);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 5rem);
+  }
+  .timeline-inner { max-width: 900px; margin: 0 auto; }
+  .tl-header { text-align: center; margin-bottom: 5rem; }
+  .tl-line {
+    position: relative;
+    padding-left: 3rem;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .tl-line::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--gold) 90%, transparent);
+  }
+  .tl-item {
+    position: relative;
+    padding: 2rem 0 3rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+  .tl-dot {
+    position: absolute; left: -3rem;
+    top: 2.3rem;
+    width: 11px; height: 11px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateX(-5px);
+    box-shadow: 0 0 0 4px rgba(184,151,58,0.2);
+  }
+  .tl-date {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    color: var(--brown);
+    margin-bottom: 0.7rem;
+    font-weight: 700;
+  }
+  .tl-text { font-size: 1rem; color: var(--gray); line-height: 1.75; }
+
+  /* ===== TESTIMONIALS ===== */
+  #testimonials {
+    background: var(--light-cream);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 5rem);
+    overflow: hidden;
+  }
+  .test-inner { max-width: 1200px; margin: 0 auto; }
+  .test-header { text-align: center; margin-bottom: 4rem; }
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  .test-card {
+    background: var(--cream);
+    border: 1px solid rgba(184,151,58,0.2);
+    padding: 2.5rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .test-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(58,30,14,0.12);
+  }
+  .test-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 1rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+  }
+  .test-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--dark-text);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+  }
+  .test-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--burgundy);
+  }
+  .test-role {
+    font-size: 0.8rem;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+  .test-stars {
+    display: flex; gap: 3px;
+    margin-bottom: 1rem;
+  }
+  .star { color: var(--gold); font-size: 0.9rem; }
+
+  /* ===== CTA ===== */
+  #contact {
+    background: var(--burgundy);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  #contact::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='1' height='1' x='0' y='0' fill='%23f5eed8' opacity='0.04'/%3E%3Crect width='1' height='1' x='3' y='3' fill='%23f5eed8' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  .cta-inner {
+    max-width: 800px; margin: 0 auto;
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+  .cta-inner .section-title { color: var(--cream); font-size: clamp(2rem, 5vw, 4rem); }
+  .cta-inner .section-label { color: rgba(184,151,58,0.8); }
+  .cta-text {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(245,238,216,0.7);
+    line-height: 1.8;
+    font-style: italic;
+    margin: 1.5rem auto 3rem;
+    max-width: 55ch;
+  }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 1.1rem 3rem;
+    background: var(--gold);
+    color: var(--brown);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: none;
+    cursor: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--cream); transform: translateY(-2px); }
+  .btn-secondary {
+    padding: 1.1rem 3rem;
+    background: transparent;
+    color: var(--cream);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1.5px solid rgba(245,238,216,0.4);
+    cursor: none;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--cream); transform: translateY(-2px); }
+  .cta-info {
+    display: flex; justify-content: center; gap: 3rem;
+    margin-top: 4rem; flex-wrap: wrap;
+  }
+  .cta-info-item {
+    text-align: center;
+    color: rgba(245,238,216,0.65);
+    font-size: 0.9rem;
+  }
+  .cta-info-item strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--brown);
+    color: rgba(245,238,216,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+  footer span { color: var(--gold); }
+
+  /* WAVE DIVIDER */
+  .wave-divider {
+    position: absolute; bottom: -1px; left: 0; width: 100%;
+    line-height: 0;
+    z-index: 2;
+  }
+  .wave-divider svg { display: block; width: 100%; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+  .delay-4 { animation-delay: 0.6s; }
+
+  /* wavy text underline */
+  .wavy-underline {
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+    text-decoration-style: wavy;
+    text-underline-offset: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Museum<br><span>Flehite</span> Amersfoort</div>
+  <ul class="nav-links">
+    <li><a onclick="scrollToSection('about')">Over ons</a></li>
+    <li><a onclick="scrollToSection('experience')">Beleving</a></li>
+    <li><a onclick="scrollToSection('timeline')">Geschiedenis</a></li>
+    <li><a onclick="scrollToSection('testimonials')">Bezoekers</a></li>
+    <li><a onclick="scrollToSection('contact')">Bezoek</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a onclick="closeMobileMenu(); scrollToSection('about')">Over ons</a>
+  <a onclick="closeMobileMenu(); scrollToSection('experience')">Beleving</a>
+  <a onclick="closeMobileMenu(); scrollToSection('timeline')">Geschiedenis</a>
+  <a onclick="closeMobileMenu(); scrollToSection('testimonials')">Bezoekers</a>
+  <a onclick="closeMobileMenu(); scrollToSection('contact')">Bezoek ons</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-dither"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow fade-up">Amersfoort · Levend Historisch Museum</p>
+    <span class="hero-year fade-up delay-1">1907</span>
+    <h1 class="hero-title fade-up delay-2">Stap terug<br><em>in de tijd</em></h1>
+    <p class="hero-subtitle fade-up delay-3">Beleef het dagelijkse leven van gewone mensen in een authentiek bewaard historisch gebouw uit de 14e eeuw.</p>
+    <button class="hero-cta fade-up delay-4" onclick="scrollToSection('experience')">Ontdek de beleving</button>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#faf6ec"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-ornament"></div>
+      <div class="about-frame">
+        <canvas class="about-frame-canvas" id="aboutCanvas"></canvas>
+      </div>
+      <div class="about-year-badge">
+        <span class="y">14e</span>
+        <span class="l">Eeuw</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="section-label">Over het museum</p>
+      <h2 class="section-title">Een gebouw dat <em>ademt</em> geschiedenis</h2>
+      <div class="about-divider"></div>
+      <p class="section-body">Ons museum is gevestigd in een historisch gebouw waarvan de oorsprong teruggaat tot de 14e eeuw — grotendeels in originele staat bewaard. Hier krijgt u inzicht in hoe mensen destijds leefden, werkten en werden verzorgd.</p>
+      <br>
+      <p class="section-body">Vrijwilligers en acteurs spelen hun rol <span class="wavy-underline">alsof zij werkelijk in 1907 leven</span>. Zonder kennis van moderne technologie, volkomen ondergedompeld in het verleden.</p>
+      <div class="about-facts">
+        <div class="fact"><div class="fact-num">14e</div><div class="fact-label">Eeuws gebouw</div></div>
+        <div class="fact"><div class="fact-num">1907</div><div class="fact-label">Het jaar dat leeft</div></div>
+        <div class="fact"><div class="fact-num">100+</div><div class="fact-label">Vrijwilligers &amp; acteurs</div></div>
+        <div class="fact"><div class="fact-num">€8</div><div class="fact-label">Toegankelijke entree</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="exp-inner">
+    <div class="exp-header">
+      <p class="section-label">De beleving</p>
+      <h2 class="section-title" style="color:var(--cream)">Meer dan een <em style="color:var(--gold)">museum</em></h2>
+    </div>
+    <div class="exp-cards">
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="20" r="10" stroke="#b8973a" stroke-width="1.5"/>
+          <path d="M8 42c0-8.8 7.2-16 16-16s16 7.2 16 16" stroke="#b8973a" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="exp-card-title">Levende acteurs</div>
+        <p class="exp-card-text">Vrijwilligers en acteurs spelen hun personages volledig in karakter — zonder enige kennis van de moderne wereld. U voert gesprekken met mensen uit 1907.</p>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="10" width="32" height="28" rx="2" stroke="#b8973a" stroke-width="1.5"/>
+          <path d="M16 10V8M32 10V8M8 20h32" stroke="#b8973a" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="exp-card-title">Armenhuis &amp; zorginstelling</div>
+        <p class="exp-card-text">Ontdek hoe ouderen en armen werden verzorgd aan het begin van de 20e eeuw — met al zijn schoonheid én pijnlijkheid.</p>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 6L28 18h13l-10.5 7.6 4 12.4L24 31l-10.5 7 4-12.4L7 18h13z" stroke="#b8973a" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="exp-card-title">Authentieke interieurs</div>
+        <p class="exp-card-text">Het gebouw is grotendeels in originele staat bewaard. Elke kamer, elk object ademt de sfeer van een tijdperk dat nog voelbaar is.</p>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 36V20l12-10 12 10v16H28v-8h-8v8z" stroke="#b8973a" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="exp-card-title">Educatieve ervaring</div>
+        <p class="exp-card-text">Geschikt voor schoolgroepen, families en geschiedenisliefhebbers. Leren door te beleven, niet slechts door te lezen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="timeline-inner">
+    <div class="tl-header">
+      <p class="section-label">Tijdlijn</p>
+      <h2 class="section-title">Eeuwen van <em>geschiedenis</em></h2>
+    </div>
+    <div class="tl-line">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">14e Eeuw · circa 1380</div>
+        <div class="tl-title">De Geboorte van een Gebouw</div>
+        <p class="tl-text">Het historische pand aan de rand van Amersfoort wordt gesticht — een complex dat door de eeuwen heen een centrale rol speelt in het stedelijk leven.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">17e Eeuw</div>
+        <div class="tl-title">Armenzorg &amp; Liefdadigheid</div>
+        <p class="tl-text">Het gebouw wordt ingericht als opvang voor armen en ouderen. De stad Amersfoort investeert in zorg voor haar kwetsbare bewoners in een tijdperk zonder sociale zekerheid.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">1907</div>
+        <div class="tl-title">Het Jaar dat Wij Bewaren</div>
+        <p class="tl-text">Dit is het jaar dat ons museum tot leven brengt. Een tijd van werkende klassen, strenge hiërarchieën en verrassende warmte in de gemeenschap. Alles wat u ziet en hoort stamt uit dit jaar.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Heden</div>
+        <div class="tl-title">Een Levend Monument</div>
+        <p class="tl-text">Vandaag verwelkomt het museum duizenden bezoekers per jaar. Het gebouw, grotendeels ongewijzigd, vertelt zijn verhaal aan een nieuwe generatie — die het zelf mag beleven.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="test-inner">
+    <div class="test-header">
+      <p class="section-label">Bezoekerservaringen</p>
+      <h2 class="section-title">Wat zeggen onze <em>gasten</em>?</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="test-text">Een unieke ervaring die ik met geen andere te vergelijken is. De acteurs zijn zo overtuigend dat je werkelijk vergeet in welk jaar je leeft. Absoluut een aanrader voor gezinnen.</p>
+        <div class="test-author">Anna de Vries</div>
+        <div class="test-role">Utrecht · Familie bezoek</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="test-text">Als geschiedenisleraar breng ik mijn klassen hier elk jaar. De manier waarop leerlingen worden meegenomen naar 1907 is ongeëvenaard. Didactisch verantwoord én spannend.</p>
+        <div class="test-author">Pieter Bakker</div>
+        <div class="test-role">Leermester · VMBO Amersfoort</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="test-text">Het gebouw alleen al is de reis waard. Maar wanneer de mensen die er in leven beginnen te spreken, valt alles op zijn plek. Tijdreizen bestaat — hier in Amersfoort.</p>
+        <div class="test-author">Marieke Jansen</div>
+        <div class="test-role">Amsterdam · Solo bezoeker</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="contact">
+  <div class="cta-inner">
+    <p class="section-label">Plan uw bezoek</p>
+    <h2 class="section-title">Kom naar <em style="color:var(--gold)">Amersfoort</em></h2>
+    <p class="cta-text">Het museum is open voor iedereen die op zoek is naar een authentieke, betaalbare en onvergetelijke kennismaking met het verleden.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="scrollToSection('contact')">Tickets & Openingstijden</button>
+      <button class="btn-secondary" onclick="scrollToSection('about')">Meer informatie</button>
+    </div>
+    <div class="cta-info">
+      <div class="cta-info-item"><strong>Di – Zo</strong>10:00 – 17:00 uur</div>
+      <div class="cta-info-item"><strong>Amersfoort</strong>Binnenkant stadscentrum</div>
+      <div class="cta-info-item"><strong>Vanaf €8</strong>Toegankelijke entreeprijs</div>
+      <div class="cta-info-item"><strong>Groepen</strong>Op aanvraag beschikbaar</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 <span>Museum Flehite Amersfoort</span> · Levend historisch museum · Gevestigd in een 14e-eeuws gebouw</p>
+</footer>
+
+<script>
+// =========== CURSOR ===========
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx-6}px, ${my-6}px)`;
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-18}px, ${ry-18}px)`;
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('button, a, .exp-card, .test-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform += ' scale(2)';
+    ring.style.width = '54px'; ring.style.height = '54px';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+// =========== NAV ===========
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
+
+// =========== HERO SHADER CANVAS ===========
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const vsrc = `
+    attribute vec2 pos;
+    void main() { gl_Position = vec4(pos, 0.0, 1.0); }
+  `;
+  const fsrc = `
+    precision mediump float;
+    uniform float t;
+    uniform vec2 res;
+    uniform vec2 mouse;
+
+    float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+    float noise(vec2 p) {
+      vec2 i = floor(p); vec2 f = fract(p);
+      vec2 u = f*f*(3.0-2.0*f);
+      return mix(mix(hash(i), hash(i+vec2(1,0)),u.x),
+                 mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)),u.x),u.y);
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / res;
+      vec2 m = mouse / res;
+      float d = distance(uv, m);
+
+      float n1 = noise(uv * 3.0 + t * 0.15);
+      float n2 = noise(uv * 6.0 - t * 0.08);
+      float n = n1 * 0.6 + n2 * 0.4;
+
+      // Ripple from mouse
+      float ripple = sin(d * 18.0 - t * 2.5) * exp(-d * 4.0) * 0.12;
+
+      // Dither
+      vec2 dpos = floor(uv * res / 3.0);
+      float dith = (mod(dpos.x + dpos.y, 2.0)) * 0.04;
+
+      // Warm gradient
+      vec3 col1 = vec3(0.22, 0.09, 0.04); // dark brown
+      vec3 col2 = vec3(0.36, 0.10, 0.16); // burgundy
+      vec3 col3 = vec3(0.72, 0.59, 0.22); // gold
+
+      float blend = n + ripple + dith;
+      vec3 col = mix(col1, col2, smoothstep(0.3, 0.7, blend));
+      col = mix(col, col3, smoothstep(0.6, 0.95, blend) * 0.4);
+
+      // Vignette
+      float v = 1.0 - length(uv - 0.5) * 1.4;
+      col *= max(v, 0.0);
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  function compile(type, src) {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, src); gl.compileShader(sh);
+    return sh;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vsrc));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsrc));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const tLoc = gl.getUniformLocation(prog, 't');
+  const rLoc = gl.getUniformLocation(prog, 'res');
+  const mLoc = gl.getUniformLocation(prog, 'mouse');
+
+  let mouseX = 0.5, mouseY = 0.5;
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = rect.height - (e.clientY - rect.top);
+  });
+
+  let start = Date.now();
+  function draw() {
+    const elapsed = (Date.now() - start) / 1000;
+    gl.uniform1f(tLoc, elapsed);
+    gl.uniform2f(rLoc, canvas.width, canvas.height);
+    gl.uniform2f(mLoc, mouseX, mouseY);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// =========== ABOUT CANVAS (Historical Interior Painting Effect) ===========
+(function() {
+  const canvas = document.getElementById('aboutCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let t = 0;
+  function drawScene() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Background gradient – warm interior
+    const bg = ctx.createRadialGradient(w*0.4, h*0.35, 0, w*0.5, h*0.5, w*0.8);
+    bg.addColorStop(0, '#6b3b1e');
+    bg.addColorStop(0.5, '#3a1e0e');
+    bg.addColorStop(1, '#1a0a04');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    // Flickering light source (candle)
+    const flicker = 0.92 + Math.sin(t * 7.3) * 0.04 + Math.sin(t * 11.7) * 0.03;
+    const lx = w * 0.42, ly = h * 0.38;
+    const lg = ctx.createRadialGradient(lx, ly, 0, lx, ly, w * 0.55);
+    lg.addColorStop(0, `rgba(255,220,100,${0.55 * flicker})`);
+    lg.addColorStop(0.3, `rgba(200,120,40,${0.25 * flicker})`);
+    lg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = lg;
+    ctx.fillRect(0, 0, w, h);
+
+    // Window arch (dark)
+    ctx.fillStyle = '#120806';
+    ctx.beginPath();
+    const ax = w * 0.55, ay = h * 0.1, aw = w * 0.28, ah = h * 0.45;
+    ctx.moveTo(ax, ay + ah);
+    ctx.lineTo(ax, ay + aw / 2);
+    ctx.arc(ax + aw / 2, ay + aw / 2, aw / 2, Math.PI, 0);
+    ctx.lineTo(ax + aw, ay + ah);
+    ctx.closePath();
+    ctx.fill();
+
+    // Subtle window light from outside
+    const wg = ctx.createLinearGradient(ax, 0, ax + aw, 0);
+    wg.addColorStop(0, 'rgba(200,185,140,0.06)');
+    wg.addColorStop(0.5, 'rgba(200,185,140,0.12)');
+    wg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = wg;
+    ctx.fillRect(0, 0, w, h);
+
+    // Silhouette of a seated figure (simple shapes)
+    const figX = w * 0.28, figY = h * 0.55;
+    ctx.fillStyle = `rgba(15,7,3,${0.88})`;
+    // body
+    ctx.beginPath();
+    ctx.ellipse(figX, figY + h*0.1, w*0.065, h*0.13, -0.15, 0, Math.PI*2);
+    ctx.fill();
+    // head
+    ctx.beginPath();
+    ctx.arc(figX + w*0.01, figY - h*0.01, w*0.035, 0, Math.PI*2);
+    ctx.fill();
+    // arms / table suggestion
+    ctx.beginPath();
+    ctx.moveTo(figX - w*0.07, figY + h*0.07);
+    ctx.lineTo(figX + w*0.1, figY + h*0.07);
+    ctx.strokeStyle = 'rgba(15,7,3,0.88)';
+    ctx.lineWidth = w * 0.04;
+    ctx.stroke();
+
+    // Dithering noise overlay
+    for (let i = 0; i < 600; i++) {
+      const dx = Math.random() * w;
+      const dy = Math.random() * h;
+      const a = Math.random() * 0.07;
+      ctx.fillStyle = `rgba(245,238,216,${a})`;
+      ctx.fillRect(dx, dy, 1, 1);
+    }
+
+    // Aged film grain
+    ctx.fillStyle = `rgba(58,30,14,${0.12 + Math.sin(t*3)*0.03})`;
+    ctx.fillRect(0, 0, w, h);
+
+    t += 0.016;
+    requestAnimationFrame(drawScene);
+  }
+  drawScene();
+})();
+
+// =========== SCROLL TIMELINE ANIMATION ===========
+const tlItems = document.querySelectorAll('.tl-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.2 });
+tlItems.forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.12}s`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
